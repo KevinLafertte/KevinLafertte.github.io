@@ -1,0 +1,25 @@
+name: Descomprimir Web
+on:
+  push:
+    paths:
+      - 'sitio.zip'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clonar repositorio
+        uses: actions/checkout@v4
+
+      - name: Descomprimir archivo
+        run: |
+          unzip -o sitio.zip
+          rm sitio.zip
+
+      - name: Subir cambios
+        run: |
+          git config --global user.name "GitHub Action"
+          git config --global user.email "action@github.com"
+          git add .
+          git commit -m "Web desempacada automáticamente" || exit 0
+          git push origin main
